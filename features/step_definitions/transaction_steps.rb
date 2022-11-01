@@ -64,7 +64,7 @@ When /I login as (.*)/ do |user_name|
     :email => email,
     :password => password,
   )
-  
+
   fill_in "Email", :with => @user.email
   fill_in "Password", :with => @user.password
   click_button "Login"
@@ -84,9 +84,9 @@ Then /I should be able to sign up/ do
     :password => password,
   )
 
-  fill_in "Name", :with => @user.name
-  fill_in "Email", :with => @user.email
-  fill_in "Password", :with => @user.password
+  fill_in "Name", :with => name
+  fill_in "Email", :with => email
+  fill_in "Password", :with => password
   click_button "Create User"
 end
 
