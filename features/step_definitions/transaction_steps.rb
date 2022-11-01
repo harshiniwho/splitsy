@@ -74,15 +74,9 @@ Then /I should be able to sign up/ do
   # Write code here that turns the phrase above into concrete actions
   click_button "Sign Up"
 
-  email = 'aladdin@gmail.com'
-  password = 'secretpass'
-  name = 'aladdin'
-  
-  @user = User.create!(
-    :name => name,
-    :email => email,
-    :password => password,
-  )
+  email = 'apple@gmail.com'
+  password = 'apple'
+  name = 'apple'
 
   fill_in "Name", :with => name
   fill_in "Email", :with => email
