@@ -64,7 +64,7 @@ When /I login as (.*)/ do |user_name|
     :email => email,
     :password => password,
   )
-
+  
   fill_in "Email", :with => @user.email
   fill_in "Password", :with => @user.password
   click_button "Login"
@@ -74,13 +74,19 @@ Then /I should be able to sign up/ do
   # Write code here that turns the phrase above into concrete actions
   click_button "Sign Up"
 
-  email = 'apple@gmail.com'
-  password = 'apple'
-  name = 'apple'
+  email = 'aladdin@gmail.com'
+  password = 'secretpass'
+  name = 'aladdin'
+  
+  @user = User.create!(
+    :name => name,
+    :email => email,
+    :password => password,
+  )
 
-  fill_in "Name", :with => name
-  fill_in "Email", :with => email
-  fill_in "Password", :with => password
+  fill_in "Name", :with => @user.name
+  fill_in "Email", :with => @user.email
+  fill_in "Password", :with => @user.password
   click_button "Create User"
 end
 

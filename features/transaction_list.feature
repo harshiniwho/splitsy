@@ -19,7 +19,7 @@ Background: transactions have been added to database
   # Then 7 seed transactions should exist
 
 Scenario: New user must be able to sign up
-When I am on the welcome page
+When I am on the Splitsy home page
   Then I should be able to sign up
 
 Scenario: Existing user must be able to login
