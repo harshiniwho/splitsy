@@ -49,7 +49,6 @@ describe UsersController, :type => :controller do
         context "show" do
           before :each do
             user1 = User.create(id: 1, name: 'a', email: 'a@g', password: 'p1', default_currency: '$')
-            print(User.all)
           end
           it "Assigns a user" do
               get :show, user_email: 'a@g'
