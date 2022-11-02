@@ -52,8 +52,8 @@ describe UsersController, :type => :controller do
             print(User.all)
           end
           it "Assigns a user" do
-              get :show, email: 'a@g'
-              expect(assigns(:users)).to eq(user1)
+              get :show, user_email: 'a@g'
+              expect(assigns(:user).name).to eq('a')
           end
        end
         context "create a user" do

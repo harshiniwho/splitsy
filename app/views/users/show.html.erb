@@ -1,5 +1,5 @@
 <!--  app/views/users/show.html.erb -->
-<h2>Details about <em><%= @user.user_email %></em></h2>
+<h2>Details about <em><%= @user.email %></em></h2>
 
 <ul id="details">
 <li>
@@ -8,16 +8,10 @@
   </li>
   <li>
     Email:
-    <%= @user.user_email %>
+    <%= @user.email %>
   </li>
   <li>
     Currency:
     <%= @user.default_currency %>
   </li>
 </ul>
-
-#<div class="row">#
- #<%= link_to 'Edit', edit_transaction_path(@transaction), :class => 'btn btn-info col-2' %>
- # <%= link_to 'Delete', transaction_path(@transaction), 'data-method' => 'delete', 'data-confirm' => 'Are you sure?', :class => 'btn btn-danger col-2' %>
- # <%= link_to 'Back to transaction list', transactions_path, :class => 'btn btn-info col-2' %>
-#</div>
