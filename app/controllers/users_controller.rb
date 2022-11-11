@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+<<<<<<< HEAD
+=======
+    before_action :check_login
+
+>>>>>>> 7c31da2 (add user profile functionality)
     def check_login
         if session[:user_email] == nil
             flash[:notice] = "Invalid session, please login."
@@ -35,18 +40,12 @@ class UsersController < ApplicationController
     end
 
     def show
-<<<<<<< HEAD
         check_login
-=======
->>>>>>> 7c31da2 (add user profile functionality)
         @user = User.find_user(session[:user_email])[0]
     end
 
     def edit
-<<<<<<< HEAD
         check_login
-=======
->>>>>>> 7c31da2 (add user profile functionality)
         @user = User.find_user(session[:user_email])[0]
     end
 
