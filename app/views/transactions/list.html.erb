@@ -57,9 +57,6 @@
           <%= transaction.timestamp.to_a[3, 3].join("/") %>
         </td>
         <td>
-          <%= transaction.timestamp %>
-        </td>
-        <td>
           <%= link_to "More about this transaction", transaction_path(transaction) %>
         </td>
       </tr>
