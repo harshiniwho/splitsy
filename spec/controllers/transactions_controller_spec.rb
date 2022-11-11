@@ -6,6 +6,37 @@ describe TransactionsController, :type => :controller do
   describe "TransactionsController" do
     render_views
    
+
+    context "Logout" do
+      before :each do
+        User.create(name: 'a', email: 'a@columbia.edu', password: 'p2', default_currency: 'Yen')
+        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5)
+        @transactions = Transaction.all
+      end
+
+      it "Should successfully log out" do
+        get :logout, {id: @transactions.take.id}, {user_email: "a@columbia.edu"}
+        expect(flash[:notice]).to eq("User successfully logged out.")
+        expect(response).to redirect_to(welcome_path)
+      end
+    end
+
+    context "Invalid Session" do
+      before :each do
+        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5)
+        Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: '$', amount: 50, percentage: 1)
+        Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: '$', amount: 200, percentage: 0.75)
+        Transaction.create(payer_email: 'd@g',payee_email: 'a@g', description: 'd4', currency: '$', amount: 300, percentage: 0.33)
+        @transactions = Transaction.all
+      end
+
+      it "Should recognize an invalid session" do
+        get :show, {id: @transactions.take.id}, {user_email: nil}
+        expect(flash[:notice]).to eq("Invalid session, please login.")
+        expect(response).to redirect_to(welcome_path)
+      end
+    end
+
     context "Showing a transaction" do
       before :each do
         User.create(name: 'a', email: 'a@g', password: 'p2', default_currency: 'Yen')

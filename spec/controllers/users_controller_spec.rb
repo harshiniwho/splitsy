@@ -17,6 +17,18 @@ describe UsersController, :type => :controller do
             expect(response).to redirect_to('/welcome')
           end
 
+          it "user has invalid email domain" do
+            get :create, user: {"name": "test", "email":"c@gmail.com", "password": "p1"}
+            expect(flash[:notice]).to eq("Invalid credentials.")
+            expect(response).to redirect_to('/welcome')
+          end
+
+          it "user has invalid name and password" do
+            get :create, user: {"name": "", "email":"c@gmail.com", "password": ""}
+            expect(flash[:notice]).to eq("Invalid credentials.")
+            expect(response).to redirect_to('/welcome')
+          end
+
           it "user exists and correct password" do
             get :validate, user: {"email": "a@columbia.edu", "password": "p1"}
           
