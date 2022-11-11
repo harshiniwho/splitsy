@@ -9,6 +9,11 @@ class UsersController < ApplicationController
 
     def create
         begin
+            if user_params['name'].empty? or (user_params['email'].size < 14 or user_params['email'][-13...]!="@columbia.edu") or user_params['password'].empty? 
+                flash[:notice] = "Invalid credentials."
+                redirect_to welcome_path
+                return
+            end
             @user = User.create!(user_params)
             if @user.save
                 session[:user_email] = @user.email
@@ -31,6 +36,10 @@ class UsersController < ApplicationController
 
     def validate
         user = User.find_user(params["user"]["email"])
+        if user.empty?
+            flash[:notice] = "User login was invalid."
+            redirect_to welcome_path
+        end
         if user.size() != 0
             if user[0].password == params["user"]["password"]
                 session[:user_email] = params["user"]["email"]
@@ -38,8 +47,6 @@ class UsersController < ApplicationController
                 return
             end
         end
-        flash[:notice] = "User login was invalid."
-        redirect_to welcome_path
     end
 
 
