@@ -54,18 +54,12 @@
           <%= transaction.currency %>
         </td>
         <td>
-<<<<<<< HEAD
-<<<<<<< HEAD
           <%= transaction.timestamp.to_a[3, 3].join("/") %>
         </td>
         <td>
-=======
->>>>>>> d6c802a (add list page for all transactions)
-=======
           <%= transaction.timestamp %>
         </td>
         <td>
->>>>>>> 741d609 (timestamp initial (#17))
           <%= link_to "More about this transaction", transaction_path(transaction) %>
         </td>
       </tr>
@@ -74,7 +68,4 @@
 </table>
 <%= link_to 'Add new transaction', new_transaction_path, :class => 'btn btn-info' %>
 <%= link_to 'Logout', logout_path, :class => 'btn btn-info' %>
-<<<<<<< HEAD
 <%= link_to 'Back to transaction list', transactions_path, :class => 'btn btn-info' %>
-=======
->>>>>>> d6c802a (add list page for all transactions)
