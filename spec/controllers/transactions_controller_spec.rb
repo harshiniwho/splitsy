@@ -68,12 +68,42 @@ describe TransactionsController, :type => :controller do
       end
 
       it "Cannot create an indirect transaction" do
-
         transactions_count = Transaction.all.count
         transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
       
         expect(flash[:notice]).to eq("Invalid transaction - payer or payee must be you.")
+        expect(response).to redirect_to(transactions_path)
+        expect(@transactions.count).to eq(transactions_count)
+      end
+
+      it "Cannot create a transaction with same payer payee" do
+        transactions_count = Transaction.all.count
+        transaction = {payer_email: 'a@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        post :create, {transaction: transaction}, {user_email: 'a@g'}
+      
+        expect(flash[:notice]).to eq("Invalid transaction - payer and payee cannot be the same user.")
+        expect(response).to redirect_to(transactions_path)
+        expect(@transactions.count).to eq(transactions_count)
+      end
+
+      it "Wrong percentage transaction" do
+        transactions_count = Transaction.all.count
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: -0.25, timestamp:Date.today}
+        post :create, {transaction: transaction}, {user_email: 'a@g'}
+      
+        expect(flash[:notice]).to eq("Invalid transaction amount/percentage.")
+        expect(response).to redirect_to(transactions_path)
+        expect(@transactions.count).to eq(transactions_count)
+      end
+
+
+      it "Wrong date transaction" do
+        transactions_count = Transaction.all.count
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.tomorrow}
+        post :create, {transaction: transaction}, {user_email: 'a@g'}
+      
+        expect(flash[:notice]).to eq("Invalid transaction - date cannot be in the future.")
         expect(response).to redirect_to(transactions_path)
         expect(@transactions.count).to eq(transactions_count)
       end
