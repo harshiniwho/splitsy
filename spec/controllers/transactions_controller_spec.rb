@@ -59,7 +59,7 @@ describe TransactionsController, :type => :controller do
 
     context "Creating Transactions" do
       before :each do
-        User.create(name: 'a', email: 'a@g', password: 'p2', default_currency: 'Yen')
+        User.create(name: 'a', email: 'c@g', password: 'p2', default_currency: 'Yen')
         Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5)
         Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: '$', amount: 50, percentage: 1)
         Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: '$', amount: 200, percentage: 0.75)
@@ -67,11 +67,23 @@ describe TransactionsController, :type => :controller do
         @transactions = Transaction.all
       end
 
+      it "Cannot create an indirect transaction" do
+
+        transactions_count = Transaction.all.count
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        post :create, {transaction: transaction}, {user_email: 'a@g'}
+      
+        expect(flash[:notice]).to eq("Invalid transaction - payer or payee must be you.")
+        expect(response).to redirect_to(transactions_path)
+        expect(@transactions.count).to eq(transactions_count)
+      end
+
+
       it "Should be create a transaction" do
 
         transactions_count = Transaction.all.count
-        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25}
-        post :create, {transaction: transaction}, {user_email: 'a@g'}
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        post :create, {transaction: transaction}, {user_email: 'c@g'}
       
         expect(flash[:notice]).to eq("Transaction was successfully created.")
         expect(response).to redirect_to(transactions_path)
