@@ -1,6 +1,21 @@
 {
   "RSpec": {
     "coverage": {
+      "/workspaces/splitsy/app/controllers/sessions_controller.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/workspaces/splitsy/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          null,
+          null,
+          1,
+          null
+        ]
+      },
       "/workspaces/splitsy/app/controllers/transactions_controller.rb": {
         "lines": [
           1,
@@ -69,15 +84,6 @@
           2,
           null,
           null,
-          null
-        ]
-      },
-      "/workspaces/splitsy/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          null,
-          null,
-          1,
           null
         ]
       },
@@ -182,16 +188,8 @@
           null,
           null
         ]
-      },
-      "/workspaces/splitsy/app/controllers/sessions_controller.rb": {
-        "lines": [
-          0,
-          0
-        ],
-        "branches": {
-        }
       }
     },
-    "timestamp": 1668206536
+    "timestamp": 1668207062
   }
 }
