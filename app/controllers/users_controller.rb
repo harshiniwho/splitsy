@@ -46,7 +46,7 @@ class UsersController < ApplicationController
                 redirect_to transactions_path
                 return
             else
-                flash[:notice] = "Invalid password."
+                flash[:notice] = "User login was invalid."
                 redirect_to welcome_path
             end
         end
