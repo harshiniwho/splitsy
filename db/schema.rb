@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20221111023433) do
     t.float    "amount"
     t.float    "percentage"
     t.datetime "timestamp"
+    t.string   "tag"
   end
 
   create_table "users", force: :cascade do |t|

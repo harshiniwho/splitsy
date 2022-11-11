@@ -1,3 +1,4 @@
+require 'date'
 class TransactionsController < ApplicationController
     before_action :check_login
     def show
@@ -54,6 +55,19 @@ class TransactionsController < ApplicationController
 
     def list
         @user_email = session[:user_email]
+        if params["filter_form"].nil? || params["filter_form"]["tag"].nil? &&  params["filter_form"]["start_time"].nil? 
+            @transactions = Transaction.all_transactions_for_user(session[:user_email])
+        elsif params["filter_form"]["tag"].nil?
+            @transactions = Transaction.find_tansactions_during_time(session[:user_email], params["filter_form"]["start_time"], params["filter_form"]["end_time"])
+        elsif params["filter_form"]["start_time"].nil?
+            @transactions = Transaction.find_tansactions_by_tag(session[:user_email],  params["filter_form"]["tag"])
+        else
+            @transactions = Transaction.find_tansactions_tag_time(session[:email],  params["filter_form"]["tag"], params["filter_form"]["start_time"], params["filter_form"]["end_time"])
+        end
+    end
+
+    def list
+        @user_email = session[:user_email]
         @transactions = Transaction.all_transactions_for_user(session[:user_email])
     end
 
@@ -73,9 +87,29 @@ class TransactionsController < ApplicationController
         @transaction = Transaction.find params[:id]
     end
 
+    def validate_create
+        flag = false
+        if transaction_params['payer_email'] != session[:user_email] and transaction_params['payee_email'] != session[:user_email]
+            flash[:notice] = "Invalid transaction - payer or payee must be you."
+        elsif transaction_params['payer_email'] == transaction_params['payee_email']
+            flash[:notice] = "Invalid transaction - payer and payee cannot be the same user."
+        elsif Date.iso8601(transaction_params['timestamp']) > Date.today
+            flash[:notice] = "Invalid transaction - date cannot be in the future."
+        else
+            flag = true
+        end
+        return flag
+    end
+
     def create
-        @transaction = Transaction.create!(transaction_params)
-        flash[:notice] = "Transaction was successfully created."
+        if validate_create
+            begin
+                @transaction = Transaction.create!(transaction_params)
+                flash[:notice] = "Transaction was successfully created."
+            rescue ActiveRecord::RecordInvalid => invalid
+                flash[:notice] = "Invalid transaction amount/percentage."
+            end
+        end
         redirect_to transactions_path
     end
 
