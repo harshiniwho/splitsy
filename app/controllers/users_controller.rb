@@ -45,6 +45,9 @@ class UsersController < ApplicationController
                 session[:user_email] = params["user"]["email"]
                 redirect_to transactions_path
                 return
+            else
+                flash[:notice] = "Invalid password."
+                redirect_to welcome_path
             end
         end
     end
