@@ -63,7 +63,7 @@ describe UsersController, :type => :controller do
             user1 = User.create(id: 1, name: 'a', email: 'a@columbia.edu', password: 'p1', default_currency: '$')
           end
           it "Assigns a user" do
-              get :show, user_email: 'a@columbia.edu'
+              get :show, {user_email: 'a@g'}, {user_email: 'a@g'}
               expect(assigns(:user).name).to eq('a')
           end
        end
