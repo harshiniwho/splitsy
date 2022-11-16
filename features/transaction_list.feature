@@ -94,6 +94,26 @@ When I login as aladdin
   And I follow "View all transactions"
   Then I should see 1 transactions from '1990-01-01' to '2022-01-01' with tag 'Bar' 
 
+Scenario: I want to filter transactions by end date
+When I login as aladdin
+  And I follow "View all transactions"
+  Then I should see 5 transactions from '' to '2022-01-01' with tag '' 
+
+Scenario: I want to filter transactions by start date
+When I login as aladdin
+  And I follow "View all transactions"
+  Then I should see 5 transactions from '1990-01-01' to '' with tag '' 
+
+Scenario: I want to filter transactions by tag and end date
+When I login as aladdin
+  And I follow "View all transactions"
+  Then I should see 1 transactions from '' to '2022-01-01' with tag 'Bar' 
+
+Scenario: I want to filter transactions by tag ans start date
+When I login as aladdin
+  And I follow "View all transactions"
+  Then I should see 1 transactions from '1990-01-01' to '' with tag 'Bar' 
+
 Scenario: I want to view my profile
 When I login as aladdin
   And I follow "My Profile"
