@@ -43,6 +43,20 @@ When I login as aladdin
   And I prompt "Delete"
   Then I should see 'deleted'
 
+Scenario: I am logged in and I log out
+When I login as aladdin
+  And I am on the Splitsy home page
+  And I follow "Add new transaction"
+  And I create new transaction with details 'aladdin@columbia.edu', 'aladdin@columbia.edu', 'test', 'US dollar', '-34', '50'
+  Then I should see 'Invalid transaction'
+
+Scenario: I want to delete transaction for a user
+When I login as aladdin
+  And I follow "View all transactions"
+  And I click on the first transaction learn more about
+  And I prompt "Delete"
+  Then I should see 'deleted'
+
 Scenario: I want to edit an existing transaction
 When I login as aladdin
   And I follow "View all transactions"
@@ -67,5 +81,23 @@ When I login as aladdin
   And I follow "View all transactions"
   Then I should see 1 transactions from '1990-01-01' to '2022-01-01' with tag 'Bar' 
 
+Scenario: I want to view my profile
+When I login as aladdin
+  And I follow "My Profile"
+  Then I should see 'Your Profile'
 
+Scenario: I want to edit my profile
+When I login as aladdin
+  And I follow "My Profile"
+  And I follow "Edit"
+  And I choose "Default Currency" as "Rupee"
+  And I press "Update Your Info"
+  Then I should see 'successfully updated'
+
+Scenario: I want to cancel edit my profile
+When I login as aladdin
+  And I follow "My Profile"
+  And I follow "Edit"
+  And I follow "Cancel"
+  Then I am on the Splitsy home page 
 

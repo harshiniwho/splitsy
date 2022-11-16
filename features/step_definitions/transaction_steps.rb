@@ -160,8 +160,10 @@ Then /I edit the field "(.*)" with "(.*)"/ do |field_name, new_value|
 end
 
 Then('I should see {int} transactions from {string} to {string}') do |num_transactions, date1, date2|
+
   fill_in 'Start date', :with => date1
   fill_in 'End date', :with => date2
+
   click_button 'Search'
   expect Transaction.all.size() == num_transactions
 end
@@ -174,8 +176,10 @@ end
 
 Then('I should see {int} transactions from {string} to {string} with tag {string}') do |num_transactions, date1, date2, tag|
   fill_in 'Tag', :with => tag
+
   fill_in 'Start date', :with => date1
   fill_in 'End date', :with => date2
+
   click_button 'Search'
   expect Transaction.all.size() == num_transactions
 end
