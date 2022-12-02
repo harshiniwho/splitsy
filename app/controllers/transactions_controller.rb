@@ -116,18 +116,18 @@ class TransactionsController < ApplicationController
             payee = transaction['payee_email']
             is_payer = payer == session[:user_email]
             if is_payer
-                @total_dues -= (transaction['amount']* conv_factor).round(2)
+                @total_dues -= (transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 if not money_map.key?(payee)
-                    money_map[payee] = (transaction['amount']* conv_factor).round(2)
+                    money_map[payee] = -(transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 else 
-                    money_map[payee] += (transaction['amount']* conv_factor).round(2)
+                    money_map[payee] -= (transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 end
             else 
-                @total_dues += (transaction['amount']* conv_factor).round(2)
+                @total_dues += (transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 if not money_map.key?(payer)
-                    money_map[payer] = - (transaction['amount']* conv_factor).round(2)
+                    money_map[payer] = (transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 else 
-                    money_map[payer] += - (transaction['amount']* conv_factor).round(2)
+                    money_map[payer] +=(transaction['amount']*(transaction['percentage'].to_f/100.0) * conv_factor).round(2)
                 end
             end
         end
