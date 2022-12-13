@@ -61,18 +61,18 @@ describe TransactionsController, :type => :controller do
     context "Creating Transactions" do
       before :each do
         User.create(name: 'a', email: 'c@g', password: 'p2', default_currency: 'Yen')
-        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5)
-        Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: '$', amount: 50, percentage: 1)
-        Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: '$', amount: 200, percentage: 0.75)
-        Transaction.create(payer_email: 'd@g',payee_email: 'a@g', description: 'd4', currency: '$', amount: 300, percentage: 0.33)
+        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5, repeat_period: '0')
+        Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: '$', amount: 50, percentage: 1, repeat_period: '0')
+        Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: '$', amount: 200, percentage: 0.75, repeat_period: '0')
+        Transaction.create(payer_email: 'd@g',payee_email: 'a@g', description: 'd4', currency: '$', amount: 300, percentage: 0.33, repeat_period: '0')
         @transactions = Transaction.all
       end
 
       it "Cannot create an indirect transaction" do
         transactions_count = Transaction.all.count
-        transaction = {payer_email: 'c@g',payee_email: 'd@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'c@g',payee_email: 'd@g', description: 'd5', currency: 'USD', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
-      
+
         expect(flash[:notice]).to eq("Invalid transaction - payer or payee must be you.")
         expect(response).to redirect_to(transactions_path)
         expect(@transactions.count).to eq(transactions_count)

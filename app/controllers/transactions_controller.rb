@@ -244,7 +244,6 @@ class TransactionsController < ApplicationController
 
     def validate_create
         flag = false
-        print(transaction_params['repeat_period'])
         if transaction_params['payer_email'] != session[:user_email] and transaction_params['payee_email'] != session[:user_email]
             flash[:notice] = "Invalid transaction - payer or payee must be you."
         elsif transaction_params['payer_email'] == transaction_params['payee_email']
