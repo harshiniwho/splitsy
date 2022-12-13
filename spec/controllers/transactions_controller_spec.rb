@@ -80,7 +80,7 @@ describe TransactionsController, :type => :controller do
 
       it "Cannot create a transaction with same payer payee" do
         transactions_count = Transaction.all.count
-        transaction = {payer_email: 'a@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'a@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
       
         expect(flash[:notice]).to eq("Invalid transaction - payer and payee cannot be the same user.")
@@ -90,7 +90,7 @@ describe TransactionsController, :type => :controller do
 
       it "Wrong percentage transaction" do
         transactions_count = Transaction.all.count
-        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: -0.25, timestamp:Date.today}
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: -0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
       
         expect(flash[:notice]).to eq("Invalid transaction amount/percentage.")
@@ -113,7 +113,7 @@ describe TransactionsController, :type => :controller do
       it "Should be create a transaction" do
 
         transactions_count = Transaction.all.count
-        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'c@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'c@g'}
       
         expect(flash[:notice]).to eq("Transaction was successfully created.")
@@ -177,11 +177,11 @@ describe TransactionsController, :type => :controller do
 
     context "Index" do
       before :each do
-        User.create(name: 'a', email: 'a@g', password: 'p2', default_currency: 'Yen')
-        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: '$', amount: 100, percentage: 0.5, timestamp:Time.new)
-        Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: '$', amount: 50, percentage: 1, timestamp:Time.new)
-        Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: '$', amount: 200, percentage: 0.75, timestamp:Time.new)
-        Transaction.create(payer_email: 'd@g',payee_email: 'a@g', description: 'd4', currency: '$', amount: 300, percentage: 0.33, timestamp:Time.new)
+        User.create(name: 'a', email: 'a@g', password: 'p2', default_currency: 'JPY')
+        Transaction.create(payer_email: 'a@g',payee_email: 'b@g', description: 'd1', currency: 'USD', amount: 100, percentage: 0.5, timestamp:Time.new)
+        Transaction.create(payer_email: 'a@g',payee_email: 'c@g', description: 'd2', currency: 'USD', amount: 50, percentage: 1, timestamp:Time.new)
+        Transaction.create(payer_email: 'b@g',payee_email: 'c@g', description: 'd3', currency: 'USD', amount: 200, percentage: 0.75, timestamp:Time.new)
+        Transaction.create(payer_email: 'd@g',payee_email: 'a@g', description: 'd4', currency: 'USD', amount: 300, percentage: 0.33, timestamp:Time.new)
         @transactions = Transaction.all
       end
       
@@ -193,11 +193,11 @@ describe TransactionsController, :type => :controller do
       it "multipe new transactions 1" do
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(3)
-        transaction = {payer_email: 'a@g',payee_email: 'd@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'a@g',payee_email: 'd@g', description: 'd5', currency: 'USD', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(4)
-        transaction = {payer_email: 'a@g',payee_email: 'b@g', description: 'd6', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'a@g',payee_email: 'b@g', description: 'd6', currency: 'USD', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(5)
@@ -206,11 +206,11 @@ describe TransactionsController, :type => :controller do
       it "multipe new transactions 2" do
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(3)
-        transaction = {payer_email: 'd@g',payee_email: 'a@g', description: 'd5', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'd@g',payee_email: 'a@g', description: 'd5', currency: 'USD', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(4)
-        transaction = {payer_email: 'b@g',payee_email: 'a@g', description: 'd6', currency: '$', amount: 20, percentage: 0.25, timestamp:Date.today}
+        transaction = {payer_email: 'b@g',payee_email: 'a@g', description: 'd6', currency: 'USD', amount: 20, percentage: 0.25, timestamp:Date.today, repeat_period: '0'}
         post :create, {transaction: transaction}, {user_email: 'a@g'}
         get :index,nil,  {user_email: 'a@g'}
         expect(assigns(:transactions).size).to eq(5)
