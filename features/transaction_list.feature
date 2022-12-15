@@ -50,6 +50,12 @@ When I login as aladdin
   Then I create a transaction with details 'aladdin@columbia.edu', 'aladdin@columbia.edu', 'test', 'USD', '34', '50', '2025-12-12' 
   Then I am on the Splitsy home page
 
+Scenario: For a new transaction, repeat period must be a number
+When I login as aladdin
+  And I follow "Add new transaction"
+  And I create new repeating transaction with details 'aladdin@columbia.edu', 'bob@columbia.edu', 'test', 'USD', '34', '50', '2025-12-12', 'yooo' 
+  Then I should see 'Invalid'
+
 Scenario: For a new transaction, date must not be a future date
 When I login as aladdin
   And I am on the Splitsy home page
@@ -126,7 +132,7 @@ Scenario: I want to filter transactions by empty fields
 When I login as aladdin
   And I follow "View all transactions"
   Then I should see 1 transactions from '' to '' with tag ''
-  
+
 Scenario: I want to view my visualizations
 When I login as aladdin
   And I follow "View visualizations"
