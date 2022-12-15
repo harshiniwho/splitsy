@@ -22,6 +22,14 @@ Background: transactions have been added to database
   | David  | david@columbia.edu  | password     | USD
   | Emma   | emma@columbia.edu   | password     | USD
 
+
+  Given the following repayments exist:
+  | payer_email           | payee_email          | currency       | amount 
+  | aladdin@columbia.edu  | bob@columbia.edu     | USD            | 1
+  | david@columbia.edu    | aladdin@columbia.edu | USD            | 1
+  | aladdin@columbia.edu  | bob@columbia.edu     | USD            | 1
+  | david@columbia.edu    | aladdin@columbia.edu | USD            | 1     
+
   And I am on the Splitsy home page
 
 Scenario: Transactions of logged in user must be displayed
@@ -117,7 +125,12 @@ When I login as aladdin
 Scenario: I want to filter transactions by empty fields
 When I login as aladdin
   And I follow "View all transactions"
-  Then I should see 1 transactions from '' to '' with tag '' 
+  Then I should see 1 transactions from '' to '' with tag ''
+  
+Scenario: I want to view my visualizations
+When I login as aladdin
+  And I follow "View visualizations"
+  Then I should see 'Your spending habits'
 
 Scenario: I want to view my profile
 When I login as aladdin
