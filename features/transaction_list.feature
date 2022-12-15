@@ -132,7 +132,7 @@ Scenario: I want to filter transactions by empty fields
 When I login as aladdin
   And I follow "View all transactions"
   Then I should see 1 transactions from '' to '' with tag ''
-
+  
 Scenario: I want to view my visualizations
 When I login as aladdin
   And I follow "View visualizations"
