@@ -42,9 +42,9 @@ class RepaymentsController < ApplicationController
 
                 p.permit!
                 @repayment = Repayment.create!(p)
-                flash[:notice] = "Transaction was successfully created."
+                flash[:notice] = "Repayment was successfully created."
             rescue ActiveRecord::RecordInvalid => invalid
-                flash[:notice] = "Invalid transaction amount/percentage."
+                flash[:notice] = "Invalid repayment amount/percentage."
             end
         end
         redirect_to all_repayments_path
