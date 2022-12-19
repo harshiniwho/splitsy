@@ -7,7 +7,7 @@ Yumeng Bai - yb2542
 Federico Tondolo - ft2505  
 Giffin Suresh -  gs3219  
 
-Heroku link: https://gentle-springs-10839.herokuapp.com/
+Heroku link: https://thawing-beyond-35126.herokuapp.com/
 
 # Instructions to run product:
 1. Set ruby version to 2.6.6 - `rbenv local 2.6.6`
