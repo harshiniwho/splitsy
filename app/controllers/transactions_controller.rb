@@ -34,9 +34,7 @@ class TransactionsController < ApplicationController
             https = Net::HTTP.new(url.host, url.port);
             https.use_ssl = true
             request = Net::HTTP::Get.new(url)
-            print(request)
             response = JSON.parse(https.request(request).read_body)
-            print(response)
             conv = response["rates"][user_currency]
             session[:conv] = conv
             amount = (transaction['amount']*(transaction['percentage'].to_f/100.0) * conv.to_f).round(2)
